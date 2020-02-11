@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { 
   Image, 
-  StyleSheet,
-  Dimensions,
   View,
   Text,
 } from 'react-native';

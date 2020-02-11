@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-    
   },
   homeContainer: {
     flex: 1,
@@ -53,7 +52,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    
   },
   formContainer: {
     flex: 1,

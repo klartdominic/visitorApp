@@ -91,9 +91,7 @@ class Form extends Component{
     }
 
     if ( this.isValidateAll() ){
-      // console.log(JSON.stringify(setObject));
-      console.log(this.retrievedItem)
-      AsyncStorage.setItem('visitor',JSON.stringify(setObject));
+      console.log(JSON.stringify(setObject));
     }else{
       this.checkValidation('Name', 'Full Name') ;
       this.checkValidation('Person', 'Person to Visit');
@@ -106,7 +104,6 @@ class Form extends Component{
     }
   }
 
-  
   async retrieveItem() {
     try {
       const retrievedItem =  await AsyncStorage.getItem('visitor');

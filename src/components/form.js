@@ -9,7 +9,11 @@ import {
 } from 'react-native';
 
 import styles from '.././styles/styles';
-
+import {
+  fetchData,
+  mergeData,
+  saveData
+} from '../storage/database';
 import AsyncStorage from '@react-native-community/async-storage';
 
 class Form extends Component{
@@ -20,7 +24,6 @@ class Form extends Component{
     this.validateInput = this.validateInput.bind(this);
     this.checkValidation = this.checkValidation.bind(this);
     this.logData = this.logData.bind(this);
-    this.retrieveItem = this.retrieveItem.bind(this);
 
     this.state={
       inputName: {
@@ -55,73 +58,44 @@ class Form extends Component{
       errHost:'',
       isError: true,
       curDate: '',
-      keyDate: '',
+      fullDate: '',
+      DATA: [],
     };
   }
 
   componentDidMount(){
-    //for testing only
-    // this.setState({
-    //   inputName: {text: 'testInputName1', valid: true},
-    //   inputID: {text: 'testinputID', valid: true},
-    //   inputPerson: {text: 'testinputPerson', valid: true},
-    //   inputPurpose: {text: 'testinputPurpose', valid: true},
-    //   inputIDNo: {text: 'testinputIDNo', valid: true},
-    //   inputHost: {text: 'tesinputHost', valid: true},
-    // });
+    // for testing only
+    this.setState({
+      inputName: {text: 'testInputName', valid: true},
+      inputID: {text: 'testinputID', valid: true},
+      inputPerson: {text: 'testinputPerson', valid: true},
+      inputPurpose: {text: 'testinputPurpose', valid: true},
+      inputIDNo: {text: 'testinputIDNo', valid: true},
+      inputHost: {text: 'tesinputHost', valid: true},
+    });
 
-    this.state.curDate = new Date().toLocaleString();
+    let today = new Date();
+    this.state.fullDate = today.toLocaleString();
+    this.state.curDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
+  }
+
+  async updateData(data){
+    try {
+      let DATA = await fetchData();
+      DATA = mergeData(DATA, data);
+      saveData(DATA);
+
+      this.setState({DATA});
+      console.log('Visitors', this.state.DATA);
+    } catch (err) {
+      console.log('Error fetching Data updateData', err);
+    }
   }
 
   _scrollToInput(reactNode: any) {
     // Add a 'scroll' ref to your ScrollView
     this.scroll.props.scrollToFocusedInput(reactNode)
   }
-
-  storeData = async (key, DATA) => {
-    try {
-      await AsyncStorage.setItem(key, DATA);
-      // alert('Data successfully saved!');
-    } catch (e) {
-      alert(e);
-    }
-  };
-
-  retrieveItem = async (key) => {
-    try {
-      const retrievedItem =  await AsyncStorage.getItem(key);
-      const item = JSON.parse(retrievedItem);
-      return item;
-    } catch (error) {
-      console.log(error.message);
-    }
-    return;
-  }
-
-  logData = (states) => {
-    let setObject = {
-      key: this.state.curDate,
-      date: this.state.curDate,
-      name: states.inputName.text,
-      id: states.inputID.text,
-      person: states.inputPerson.text,
-      purpose: states.inputPurpose.text,
-      idNo: states.inputIDNo.text,
-      host: states.inputHost.text,
-    };
-
-    if (this.isValidateAll()) {
-      console.log(this.storeData('@visitor_key', JSON.stringify(setObject)));
-      // console.log(JSON.stringify(setObject));
-      // console.log(this.retrieveItem('@visitor_key'));
-    }else{
-      this.checkValidation('Name', 'Full Name') ;
-      this.checkValidation('Person', 'Person to Visit');
-      this.checkValidation('Purpose', 'Purpose');
-      this.checkValidation('IDNo', 'ID No.');
-      Alert.alert('Invalid', 'Please check highlighted fields');
-    }
-  };
 
   validateInput(text,fieldName){
     let _field = `input${fieldName}`;
@@ -154,6 +128,31 @@ class Form extends Component{
     } else {
       return false;
     }
+  };
+
+  logData = (states) => {
+    let setObject = {
+      date: states.fullDate,
+      name: states.inputName.text,
+      id: states.inputID.text,
+      person: states.inputPerson.text,
+      purpose: states.inputPurpose.text,
+      idNo: states.inputIDNo.text,
+      host: states.inputHost.text,
+      createdAt: states.curDate,
+    };
+    this.updateData(setObject);
+    // AsyncStorage.clear();
+
+    // if (this.isValidateAll()) {
+      // mergeData(existingData, setObject);
+    // } else {
+    //   this.checkValidation('Name', 'Full Name') ;
+    //   this.checkValidation('Person', 'Person to Visit');
+    //   this.checkValidation('Purpose', 'Purpose');
+    //   this.checkValidation('IDNo', 'ID No.');
+    //   Alert.alert('Invalid', 'Please check highlighted fields');
+    // }
   };
 
   render() {

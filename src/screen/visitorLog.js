@@ -9,9 +9,9 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from '.././styles/styles';
 import LogoScreen from '.././components/logo';
-import FormScreen from '.././components/form';
 import ClockScreen from '.././components/clock';
 import CopyrightScreen from '.././components/copyright';
+import LogListScreen from '.././components/logList';
 
 class Home extends Component {
   render(){
@@ -25,9 +25,8 @@ class Home extends Component {
         automaticallyAdjustContentInsets={false}
       >
       <View style={styles.homeContainer}>
-        <LogoScreen />
         <ClockScreen />
-        <FormScreen /> 
+        <LogListScreen />
         <CopyrightScreen /> 
       </View>
       </KeyboardAwareScrollView>

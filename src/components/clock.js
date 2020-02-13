@@ -11,7 +11,7 @@ import styles from '.././styles/styles';
 export default class Logo extends Component{
   constructor(){
     super()
-    this.state={
+    this.state = {
       curTime: '',
     }
   };

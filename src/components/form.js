@@ -64,16 +64,6 @@ class Form extends Component{
   }
 
   componentDidMount(){
-    // for testing only
-    this.setState({
-      inputName: {text: 'testInputName', valid: true},
-      inputID: {text: 'testinputID', valid: true},
-      inputPerson: {text: 'testinputPerson', valid: true},
-      inputPurpose: {text: 'testinputPurpose', valid: true},
-      inputIDNo: {text: 'testinputIDNo', valid: true},
-      inputHost: {text: 'tesinputHost', valid: true},
-    });
-
     let today = new Date();
     this.state.fullDate = today.toLocaleString();
     this.state.curDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
@@ -141,18 +131,17 @@ class Form extends Component{
       host: states.inputHost.text,
       createdAt: states.curDate,
     };
-    this.updateData(setObject);
     // AsyncStorage.clear();
 
-    // if (this.isValidateAll()) {
-      // mergeData(existingData, setObject);
-    // } else {
-    //   this.checkValidation('Name', 'Full Name') ;
-    //   this.checkValidation('Person', 'Person to Visit');
-    //   this.checkValidation('Purpose', 'Purpose');
-    //   this.checkValidation('IDNo', 'ID No.');
-    //   Alert.alert('Invalid', 'Please check highlighted fields');
-    // }
+    if (this.isValidateAll()) {
+      this.updateData(setObject);
+    } else {
+      this.checkValidation('Name', 'Full Name') ;
+      this.checkValidation('Person', 'Person to Visit');
+      this.checkValidation('Purpose', 'Purpose');
+      this.checkValidation('IDNo', 'ID No.');
+      Alert.alert('Invalid', 'Please check highlighted fields');
+    }
   };
 
   render() {

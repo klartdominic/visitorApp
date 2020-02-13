@@ -56,6 +56,10 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
   },
+  logListContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
   images: {
     width: 100,
     height: 100,
@@ -87,7 +91,7 @@ const styles = StyleSheet.create({
     borderColor: variable.borderColor,
     borderWidth: variable.borderWidth,
   },
-  touchable:{
+  touchable: {
     textAlign: 'center',
     backgroundColor: variable.buttonBGColor,
     // width: ( width * 0.8 ),
@@ -107,6 +111,12 @@ const styles = StyleSheet.create({
   },
   copyright: {
     color: variable.copyrightColor,
+  },
+  listTouchable: {
+    backgroundColor: variable.buttonBGColor,
+    width: variable.width,
+    borderRadius: variable.touchableBorderRadius,
+    marginVertical: 5,
   },
 });
 

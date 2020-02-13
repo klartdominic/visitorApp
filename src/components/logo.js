@@ -13,16 +13,11 @@ export default class Logo extends Component{
   }
 
   render(){
-    let uri = '.././images/sprobe_logo.png'
-    return(
+    let uri = '.././images/sprobe_logo.png';
+    return (
       <View style={styles.logoContainer}>
-        <Image 
-          style={styles.images}
-          source={require(uri)}
-        />
-        <Text
-          style={styles.logoText}
-        >Welcome to Sprobe</Text>
+        <Image style={styles.images} source={require(uri)} />
+        <Text style={styles.logoText}>Welcome to Sprobe</Text>
       </View>
     );
   }

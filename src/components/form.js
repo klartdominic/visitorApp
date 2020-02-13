@@ -14,12 +14,12 @@ import {
   mergeData,
   saveData
 } from '../storage/database';
+import { getData } from './logList';
 import AsyncStorage from '@react-native-community/async-storage';
 
 class Form extends Component{
   constructor(){
     super()
-
     this.isValidateAll = this.isValidateAll.bind(this);
     this.validateInput = this.validateInput.bind(this);
     this.checkValidation = this.checkValidation.bind(this);
@@ -77,7 +77,6 @@ class Form extends Component{
       saveData(DATA);
 
       this.setState({DATA});
-      console.log('Visitors', this.state.DATA);
     } catch (err) {
       console.log('Error fetching Data updateData', err);
     }
@@ -134,11 +133,17 @@ class Form extends Component{
       createdAt: states.curDate,
     };
     // AsyncStorage.clear();
-    console.log(that)
 
     if (this.isValidateAll()) {
-      // this.updateData(setObject);
+      this.updateData(setObject);
+
+      alert('success');
+      this.props.navigator.navigate('Visitor');
       // AsyncStorage.clear();
+      // Alert.alert('Welcome' 'Successful');
+      // getData();
+      // console.log(this);
+      
     } else {
       this.checkValidation('Name', 'Full Name') ;
       this.checkValidation('Person', 'Person to Visit');

@@ -8,7 +8,6 @@ export const fetchData = async () => {
     if (existingData === null) {
       return [];
     }
-
     return parseExistingData(existingData);
   } catch (err) {
     console.log('Error Fetching Visitor Data', err);
@@ -43,3 +42,18 @@ export const mergeData = (existingData, data) => {
 export const saveData = (data) => {
   AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 };
+
+export const removeItem = async (item) => {
+  try {
+    let existingData = await fetchData();
+    let newItems = existingData.filter((e) => {
+      return e.name !== item.name
+    }
+    );
+    saveData(newItems);
+  
+  } catch (err) {
+    console.log('Error Removing Item', err)
+  }
+}
+

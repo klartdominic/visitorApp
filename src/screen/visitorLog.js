@@ -12,10 +12,45 @@ import LogoScreen from '.././components/logo';
 import ClockScreen from '.././components/clock';
 import CopyrightScreen from '.././components/copyright';
 import LogListScreen from '.././components/logList';
+import { fetchData } from '../storage/database';
 
 class VistorLog extends Component {
+  constructor(){
+    super()
+
+    // this.state=({
+    //   DATA: [],
+    // })
+  };
+
+  componentDidMount(){
+    // this.getData();
+    // this._navListener = [
+    //   this.props.navigation.addListener('willFocus', () => {
+    // // get your new data here and then set state it will rerender
+    //   this.getData();
+    //   console.log(this.state.DATA);
+    // })
+    // ];
+
+    // if(this.props.navigation.isFocused()){
+    //   this.getData();
+    //   console.log('isfocused');
+    // }
+  };
+
+  // componentWillUnmount() {
+    // this._navListener.forEach( item => item.remove() )
+  // }
+  // getData = async () => {
+  //   let DATA = await fetchData();
+  //   this.setState({DATA});
+  // };
+
+
   render(){
     return(
+      // this.getData(),
       <KeyboardAwareScrollView 
         innerRef={ref => {
           this.scroll = ref
@@ -25,9 +60,8 @@ class VistorLog extends Component {
         automaticallyAdjustContentInsets={false}
       >
       <View style={styles.homeContainer}>
-      {/* {console.log(this)} */}
         <ClockScreen />
-        <LogListScreen />
+        <LogListScreen that={this}/>
         <CopyrightScreen /> 
       </View>
       </KeyboardAwareScrollView>

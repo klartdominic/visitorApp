@@ -14,6 +14,7 @@ import ClockScreen from '.././components/clock';
 import CopyrightScreen from '.././components/copyright';
 
 class Home extends Component {
+  
   render(){
     
     return(
@@ -21,14 +22,14 @@ class Home extends Component {
         innerRef={ref => {
           this.scroll = ref
         }}
-        extraHeight= {10}
-        extraScrollHeight={10}
+        extraHeight= {1}
+        extraScrollHeight={1}
         automaticallyAdjustContentInsets={false}
       >
       <View style={styles.homeContainer}>
         <LogoScreen />
         <ClockScreen />
-        <FormScreen /> 
+        <FormScreen navigator={this.props.navigation}/> 
         <CopyrightScreen /> 
       </View>
       </KeyboardAwareScrollView>

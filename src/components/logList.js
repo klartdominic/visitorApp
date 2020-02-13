@@ -5,47 +5,62 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  Alert,
 } from 'react-native';
 
-import { fetchData } from '../storage/database';
+import { fetchData, saveData, removeItem } from '../storage/database';
 import { ListItem } from 'react-native-elements';
 import styles from '.././styles/styles';
+import AsyncStorage from "@react-native-community/async-storage";
 
 class LogList extends Component {
   constructor(){
     super()
-
-    this.getData = this.getData.bind(this);
-    
-    this.state = {
+    this.state=({
       DATA: [],
-    };
-  }
-
-  componentDidMount(){
-
+    })
+  } 
+  componentDidMount() {
     this.getData();
-    console.log(this)
   }
 
   getData = async () => {
     let DATA = await fetchData();
     this.setState({DATA});
+    console.log('test');
   };
 
-  pressHandler = (item) => {
-    console.log(item);
+  validateRemoveItem = (item) => {
+    Alert.alert(
+      'Logout' ,
+      `Confirm to Logout ${item.name}?`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK', 
+          onPress: () => {removeItem(item); this.getData()}
+        },
+      ],
+      {cancelable: false},
+    )
   };
-
+  
   render() {
+    // this.getData();
     return (
+      // this.getData(),
       <View style={styles.logListContainer}>
         <Text>List of People who Logged In</Text>
         <FlatList
           data={this.state.DATA}
           renderItem={({item}) => (
             <TouchableOpacity
-              onPress={() => this.pressHandler(item)}>
+              onPress={() => this.validateRemoveItem(item)}
+              // onPress={() => console.log()}
+            >
               <ListItem
                 roundAvatar
                 title={`${item.name}`}
@@ -57,7 +72,7 @@ class LogList extends Component {
               />
             </TouchableOpacity>
           )}
-          keyExtractor={item => item.date}
+          keyExtractor={item => item.name}
           ListEmptyComponent = {() => 
             <Text>
               There are no Logged Visitor yet.

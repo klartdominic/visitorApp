@@ -13,7 +13,7 @@ import ClockScreen from '.././components/clock';
 import CopyrightScreen from '.././components/copyright';
 import LogListScreen from '.././components/logList';
 
-class Home extends Component {
+class VistorLog extends Component {
   render(){
     return(
       <KeyboardAwareScrollView 
@@ -25,6 +25,7 @@ class Home extends Component {
         automaticallyAdjustContentInsets={false}
       >
       <View style={styles.homeContainer}>
+      {/* {console.log(this)} */}
         <ClockScreen />
         <LogListScreen />
         <CopyrightScreen /> 
@@ -34,5 +35,5 @@ class Home extends Component {
   };
 }
 
-export default Home;
+export default VistorLog;
 

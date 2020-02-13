@@ -64,6 +64,7 @@ class Form extends Component{
   }
 
   componentDidMount(){
+    const logListChild = this.refs.child;
     let today = new Date();
     this.state.fullDate = today.toLocaleString();
     this.state.curDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
@@ -120,7 +121,8 @@ class Form extends Component{
     }
   };
 
-  logData = (states) => {
+  logData = (that) => {
+    let states = that.state
     let setObject = {
       date: states.fullDate,
       name: states.inputName.text,
@@ -132,9 +134,11 @@ class Form extends Component{
       createdAt: states.curDate,
     };
     // AsyncStorage.clear();
+    console.log(that)
 
     if (this.isValidateAll()) {
-      this.updateData(setObject);
+      // this.updateData(setObject);
+      // AsyncStorage.clear();
     } else {
       this.checkValidation('Name', 'Full Name') ;
       this.checkValidation('Person', 'Person to Visit');
@@ -203,7 +207,7 @@ class Form extends Component{
         
         <TouchableOpacity 
           style={styles.touchable}
-          onPress={() => this.logData(this.state)}>
+          onPress={() => this.logData(this)}>
           <Text>Login</Text>
         </TouchableOpacity>
       </View>

@@ -15,6 +15,7 @@ import CopyrightScreen from '.././components/copyright';
 
 class Home extends Component {
   render(){
+    
     return(
       <KeyboardAwareScrollView 
         innerRef={ref => {

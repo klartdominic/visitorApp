@@ -15,13 +15,17 @@ class LogList extends Component {
   constructor(){
     super()
 
+    this.getData = this.getData.bind(this);
+    
     this.state = {
       DATA: [],
     };
   }
 
   componentDidMount(){
+
     this.getData();
+    console.log(this)
   }
 
   getData = async () => {

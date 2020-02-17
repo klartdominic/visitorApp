@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Keyboard,
 } from 'react-native';
 
 import styles from '.././styles/styles';
@@ -136,11 +137,10 @@ class Form extends Component{
 
     if (this.isValidateAll()) {
       this.updateData(setObject);
-
-      alert('success');
-      this.props.navigator.navigate('Visitor');
       // AsyncStorage.clear();
-      // Alert.alert('Welcome' 'Successful');
+      Alert.alert('Welcome', 'Successful');
+      Keyboard.dismiss();
+      this.props.navigator.navigate('Visitor');
       // getData();
       // console.log(this);
       

@@ -8,7 +8,6 @@ class AppStateExample extends Component {
 
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
-    console.log(this)
   }
 
   componentWillUnmount() {

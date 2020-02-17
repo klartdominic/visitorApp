@@ -21,6 +21,7 @@ const variable = {
   textInputHeight: 50,
   textAlignVertical: isAndroid ? "top" : 'auto',
   borderWidth: 1,
+  fontColor: 'white',
 };
 
 const styles = StyleSheet.create({
@@ -117,6 +118,11 @@ const styles = StyleSheet.create({
     width: variable.width,
     borderRadius: variable.touchableBorderRadius,
     marginVertical: 5,
+    // color: variable.fontColor,
+    // fontColor: 30,
+  },
+  titleList: {
+    color: variable.fontColor,
   },
 });
 

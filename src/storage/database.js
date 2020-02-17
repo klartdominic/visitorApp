@@ -4,7 +4,11 @@ const STORAGE_KEY = 'visitor';
 
 export const fetchData = async () => {
   try {
-    let existingData = await AsyncStorage.getItem(STORAGE_KEY);
+    // let existingData = await AsyncStorage.getItem(STORAGE_KEY);
+    let existingData
+    await AsyncStorage.getItem(STORAGE_KEY).then((value) => {
+      existingData = value;
+    })
     if (existingData === null) {
       return [];
     }

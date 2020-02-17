@@ -2,15 +2,21 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createMaterialTopTabNavigator, createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import {createSwitchNavigator} from 'react-navigation';
 import HomeScreen from '../screen/home';
 import VisitorLogScreen from '../screen/visitorLog';
 import AppStateScreen from '../screen/appstate';
 
+// const SwitchNavigator = createSwitchNavigator(
+//   {
+//     Visitor:  VisitorLogScreen,
+//   }
+// )
+
 const NavigationTabs = createMaterialTopTabNavigator(
   {
-    Home: {screen: HomeScreen},
-    Visitor: {screen: VisitorLogScreen},
-    AppState: {screen: AppStateScreen},
+    Home:  HomeScreen,
+    Visitor: VisitorLogScreen,
   },
   {
     initialRouteName: 'Home',
@@ -23,5 +29,16 @@ const NavigationTabs = createMaterialTopTabNavigator(
     },
   }
 )
+
+// const NavigationTabs = createSwitchNavigator(
+//   {
+//     Home: HomeScreen,
+//     Visitor: VisitorLogScreen,
+//   },
+//   {
+//     initialRouteName: 'Home',
+//     swipeEnabled: true,
+//   }
+// )
 
 export default createAppContainer(NavigationTabs);

@@ -1,46 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   FlatList,
-  StyleSheet,
-  Alert,
-  RefreshControl,
 } from 'react-native';
 
-import { fetchData, saveData, removeItem } from '../storage/database';
-import { ListItem } from 'react-native-elements';
+import {ListItem} from 'react-native-elements';
 import styles from '.././styles/styles';
-import AsyncStorage from "@react-native-community/async-storage";
 
-const validateRemoveItem = (item) => {
-  Alert.alert(
-    'Logout' ,
-    `Confirm to Logout ${item.name}?`,
-    [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
-      {
-        text: 'OK', 
-        onPress: () => {removeItem(item)}
-      },
-    ],
-    {cancelable: false},
-  )
-};
 
-export default LogList = ({ data }) => {
+const LogList = (props) => {
   return (
     <View style={styles.logListContainer}>
-      <Text>List of People who Logged In{console.log(data)}</Text>
+      <Text>List of People who Logged In</Text>
       <FlatList
-        data={data}
+        data={props.data}
         renderItem={({item}) => (
           <TouchableOpacity
-            onPress={() => validateRemoveItem(item)}
+            onPress={() => props.validateRemoveItem(item)}
           >
             <ListItem
               roundAvatar
@@ -70,3 +48,5 @@ export default LogList = ({ data }) => {
     </View>
   )
 }
+
+export default LogList;

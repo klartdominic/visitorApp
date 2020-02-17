@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
   View,
   Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
   AppState,
+  Alert,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from '.././styles/styles';
@@ -13,8 +15,7 @@ import LogoScreen from '.././components/logo';
 import ClockScreen from '.././components/clock';
 import CopyrightScreen from '.././components/copyright';
 import LogListScreen from '.././components/logList';
-import { fetchData } from '../storage/database';
-import AsyncStorage from "@react-native-community/async-storage";
+import { fetchData, saveData } from '../storage/database';
 
 class VistorLog extends Component {
   constructor(props){
@@ -22,45 +23,84 @@ class VistorLog extends Component {
     this.state=({
       DATA: [],
       isLoading: true,
+      externalData: null,
     })
+  }
+
+  getData = async() => {
+    await fetchData().then(DATA => this.setState({DATA}));
+    this.setPause();
+  };
+
+  setPause = () => {
+    setInterval(() => {
+      this.setState({
+        isLoading: true,
+      });
+    }, 3000);
+    this.setState({isLoading: false});
+  };
+
+  validateRemoveItem = (item) => {
+    Alert.alert(
+      'Logout',
+      `Confirm to Logout ${item.name}?`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            this.removeItem(item);
+          },
+        },
+      ],
+      {cancelable: true},
+    )
+  };
+
+  removeItem = (item) => {
+    let prevData = [...this.state.DATA];
+    let filteredItems = prevData.filter((e) => {
+      return e.name !== item.name;
+    })
+    saveData(filteredItems);
+    this.setPause();
+    this.getData();
+    this.setPause();
   };
 
   componentDidMount() {
     this.getData();
-    console.log(this)
-    if(this.props.navigation.isFocused()){
-      console.log('isfocused',this)
-      // console.log('navigation addlistener',  this.props.navigation.addlistener())
-      this.getData();
-    }
-  };
+  }
 
-  getData = async() => {
-    let DATA = await fetchData();
-    this.setState({DATA});
-  };
+  componentWillUnmount() {
+    this.navigationEvent.remove();
+  }
 
-  render(){
-    return(
-      // this.getData(),
-      // <KeyboardAwareScrollView 
-      //   innerRef={ref => {
-      //     this.scroll = ref
-      //   }}
-      //   extraHeight= {10}
-      //   extraScrollHeight={10}
-      //   automaticallyAdjustContentInsets={false}
-      // >
+  navigationEvent = this.props.navigation.addListener('willFocus', () => {
+    this.getData();
+  });
+
+  render() {
+    return (
       <View style={styles.homeContainer}>
         <ClockScreen />
-        {this.state.DATA ? <LogListScreen data={this.state.DATA} navigator={this.props.navigation}/> : <Text>No Visitor</Text> }
-        {/* <LogListScreen data={this.state.DATA} navigator={this.props.navigation}/>  */}
-        <CopyrightScreen /> 
+        {this.state.isLoading ? (
+          <LogListScreen
+            data={this.state.DATA}
+            validateRemoveItem={this.validateRemoveItem}
+          />
+        ) : (
+          <ActivityIndicator />
+        )}
+        <CopyrightScreen />
       </View>
-      // </KeyboardAwareScrollView>
     );
-  };
-};
+  }
+}
+
 
 export default VistorLog;
-

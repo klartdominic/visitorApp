@@ -4,11 +4,11 @@ const STORAGE_KEY = 'visitor';
 
 export const fetchData = async () => {
   try {
-    // let existingData = await AsyncStorage.getItem(STORAGE_KEY);
-    let existingData
-    await AsyncStorage.getItem(STORAGE_KEY).then((value) => {
-      existingData = value;
-    })
+    let existingData = await AsyncStorage.getItem(STORAGE_KEY);
+    // let existingData
+    // await AsyncStorage.getItem(STORAGE_KEY).then((value) => {
+    //   existingData = value;
+    // })
     if (existingData === null) {
       return [];
     }
@@ -47,17 +47,15 @@ export const saveData = (data) => {
   AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 };
 
-export const removeItem = async (item) => {
+export const updateData = async(data) => {
   try {
-    let existingData = await fetchData();
-    let newItems = existingData.filter((e) => {
-      return e.name !== item.name
-    }
-    );
-    saveData(newItems);
-  
+    let DATA = await fetchData();
+    DATA = mergeData(DATA, data);
+    saveData(DATA);
+
+    // this.setState({DATA});
+    return DATA;
   } catch (err) {
-    console.log('Error Removing Item', err)
+    console.log('Error fetching Data updateData', err);
   }
 }
-

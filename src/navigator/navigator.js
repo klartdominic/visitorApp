@@ -27,6 +27,7 @@ const NavigationTabs = createMaterialTopTabNavigator(
       showIcon: false,
       style: { height: 0 },
     },
+    lazy: true,
   }
 )
 

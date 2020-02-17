@@ -13,10 +13,12 @@ import styles from '.././styles/styles';
 import {
   fetchData,
   mergeData,
-  saveData
+  saveData,
+  updateData,
 } from '../storage/database';
 import { getData } from './logList';
 import AsyncStorage from '@react-native-community/async-storage';
+import VisitorLogScreen from '../screen/visitorLog';
 
 class Form extends Component{
   constructor(){
@@ -71,21 +73,21 @@ class Form extends Component{
     this.state.curDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
   }
 
-  async updateData(data){
-    try {
-      let DATA = await fetchData();
-      DATA = mergeData(DATA, data);
-      saveData(DATA);
+  // async updateData(data){
+  //   try {
+  //     let DATA = await fetchData();
+  //     DATA = mergeData(DATA, data);
+  //     saveData(DATA);
 
-      this.setState({DATA});
-    } catch (err) {
-      console.log('Error fetching Data updateData', err);
-    }
-  }
+  //     this.setState({DATA});
+  //   } catch (err) {
+  //     console.log('Error fetching Data updateData', err);
+  //   }
+  // }
 
   _scrollToInput(reactNode: any) {
     // Add a 'scroll' ref to your ScrollView
-    this.scroll.props.scrollToFocusedInput(reactNode)
+    this.scroll.props.scrollToFocusedInput(reactNode);
   }
 
   validateInput(text,fieldName){
@@ -136,14 +138,15 @@ class Form extends Component{
     // AsyncStorage.clear();
 
     if (this.isValidateAll()) {
-      this.updateData(setObject);
-      // AsyncStorage.clear();
+      updateData(setObject).then((DATA) => {
+        this.setState({DATA});
+      // updateData(setObject);
+      // console.log(updateData(setObject));
       Alert.alert('Welcome', 'Successful');
-      Keyboard.dismiss();
       this.props.navigator.navigate('Visitor');
-      // getData();
-      // console.log(this);
+      Keyboard.dismiss();
       
+      });
     } else {
       this.checkValidation('Name', 'Full Name') ;
       this.checkValidation('Person', 'Person to Visit');

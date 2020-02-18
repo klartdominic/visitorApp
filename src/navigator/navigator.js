@@ -4,6 +4,7 @@ import {createMaterialTopTabNavigator, createBottomTabNavigator} from 'react-nav
 import {createStackNavigator} from 'react-navigation-stack';
 import {createSwitchNavigator} from 'react-navigation';
 import HomeScreen from '../screen/home';
+import Home2Screen from '../screen/home copy';
 import VisitorLogScreen from '../screen/visitorLog';
 import AppStateScreen from '../screen/appstate';
 
@@ -15,11 +16,12 @@ import AppStateScreen from '../screen/appstate';
 
 const NavigationTabs = createMaterialTopTabNavigator(
   {
-    Home:  HomeScreen,
+    // Home: HomeScreen,
+    Home2: Home2Screen,
     Visitor: VisitorLogScreen,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Home2',
     animationEnabled: true,
     swipeEnabled: true,
     tabBarOptions: {

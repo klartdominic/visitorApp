@@ -15,6 +15,14 @@ import CopyrightScreen from '.././components/copyright';
 
 class Home extends Component {
   
+  // componentWillUnmount() {
+  //   this.navigationEvent.remove();
+  // }
+
+  // navigationEvent = this.props.navigation.addListener('willFocus', () => {
+  //   this.getData();
+  // });
+
   render(){
     
     return(

@@ -66,24 +66,27 @@ class Form extends Component{
     };
   }
 
+  getData = async() => {
+    await fetchData().then(DATA => this.setState({DATA}));
+    this.setPause();
+  };
+
+  setPause = () => {
+    setInterval(() => {
+      this.setState({
+        isLoading: true,
+      });
+    }, 3000);
+    this.setState({isLoading: false});
+  };
+
   componentDidMount(){
-    const logListChild = this.refs.child;
     let today = new Date();
     this.state.fullDate = today.toLocaleString();
     this.state.curDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
+
+    this.getData();
   }
-
-  // async updateData(data){
-  //   try {
-  //     let DATA = await fetchData();
-  //     DATA = mergeData(DATA, data);
-  //     saveData(DATA);
-
-  //     this.setState({DATA});
-  //   } catch (err) {
-  //     console.log('Error fetching Data updateData', err);
-  //   }
-  // }
 
   _scrollToInput(reactNode: any) {
     // Add a 'scroll' ref to your ScrollView
@@ -109,6 +112,37 @@ class Form extends Component{
       ? this.setState({[_errObj]: null})
       : this.setState({[_errObj]: _errText});
   };
+
+  checkName = async (value) => {
+    let _object = 'inputName';
+    let _errObj = 'errName';
+    let _isValid = this.state[_object].valid;
+    let prevData = [...this.state.DATA];
+
+    if (_isValid) {
+      prevData.every(arrItem => {
+        if (arrItem.name === value) {
+          this.setState({
+            [_errObj]: `* ${value} is already logged`,
+            [_object]: {text: value, valid: false},
+          });
+          console.log('is already logged',this.state.inputName)
+          return false;
+        } else {
+          this.setState({
+            [_errObj]: null,
+            [_object]: {text: value, valid: true},
+          });
+          console.log('not logged', this.state.inputName)
+        }
+      });
+    } else {
+      this.setState({[_errObj]: `* Full Name is required`});
+      console.log('fullname is required',this.state.inputName)
+    }
+      
+      
+  }
 
   isValidateAll = () => {
     if (
@@ -140,12 +174,9 @@ class Form extends Component{
     if (this.isValidateAll()) {
       updateData(setObject).then((DATA) => {
         this.setState({DATA});
-      // updateData(setObject);
-      // console.log(updateData(setObject));
-      Alert.alert('Welcome', 'Successful');
-      this.props.navigator.navigate('Visitor');
-      Keyboard.dismiss();
-      
+        Alert.alert('Welcome', 'Successful');
+        this.props.navigator.navigate('Visitor');
+        Keyboard.dismiss();
       });
     } else {
       this.checkValidation('Name', 'Full Name') ;
@@ -164,7 +195,9 @@ class Form extends Component{
           placeholder="Name" 
           onSubmitEditing={() => this.inputID.focus()}
           onChangeText={(Name) => this.validateInput(Name, 'Name')}
-          onBlur={() => this.checkValidation('Name', 'Full Name')}
+          onBlur={() =>
+            this.checkName(this.state.inputName.text)
+          }
         />
         <Text style={styles.errText}>{this.state.errName}</Text>
         <TextInput 

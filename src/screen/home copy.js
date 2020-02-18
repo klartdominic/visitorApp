@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
+  Alert,
+  Keyboard,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from '.././styles/styles';
@@ -15,18 +13,18 @@ import CopyrightScreen from '.././components/copyright';
 
 import {
   fetchData,
-  mergeData,
-  saveData,
   updateData,
 } from '../storage/database';
 
 class Home2 extends Component {
-  constructor(props) {
-    super(props);
+
+  constructor() {
+    super();
     this.isValidateAll = this.isValidateAll.bind(this);
     this.validateInput = this.validateInput.bind(this);
     this.checkValidation = this.checkValidation.bind(this);
     this.logData = this.logData.bind(this);
+    this.navigationEvent = this.navigationEvent.bind(this);
 
     this.state = {
       inputName: {
@@ -59,7 +57,6 @@ class Home2 extends Component {
       errPurpose: '',
       errIDNo: '',
       errHost: '',
-      isError: true,
       curDate: '',
       fullDate: '',
       DATA: [],
@@ -81,21 +78,20 @@ class Home2 extends Component {
   };
 
   componentDidMount(){
-    // let today = new Date();
-    // this.state.fullDate = today.toLocaleString();
-    // this.state.curDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
+    let today = new Date();
+    this.state.fullDate = today.toLocaleString();
+    this.state.curDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
 
     this.getData();
-    console.log('componentDidMount',this);
   }
 
-  // componentWillUnmount() {
-  //   this.navigationEvent.remove();
-  // }
+  componentWillUnmount() {
+    this.navigationEvent.remove();
+  }
 
-  // navigationEvent = this.props.navigation.addListener('willFocus', () => {
-  //   this.getData();
-  // });
+  navigationEvent = this.props.navigation.addListener('willFocus', () => {
+    this.getData();
+  });
 
   _scrollToInput(reactNode: any) {
     // Add a 'scroll' ref to your ScrollView
@@ -103,30 +99,17 @@ class Home2 extends Component {
   }
 
   validateInput(text, fieldName) {
-    console.log('validateInput',text, fieldName)
-
     let _field = `input${fieldName}`;
-    let isValid = true;
-    // try {
-    //   if (text.length !== 0) {
-    //     isValid = true;
-    //   } else {
-    //     isValid = false;
-    //   }
-    // } catch (error) {
-    //   console.log('validateInput', error)
-    // }
 
     let setObject = {
       text: text,
-      valid: isValid
-      // valid: text.length !== 0,
+      valid: text.length !== 0,
     };
     this.setState({ [_field]: setObject});
   }
 
   checkValidation = (fieldName, text) => {
-    console.log('checkValidation', fieldName, text)
+    console.log('checkValidation', fieldName, text);
     let _object = `input${fieldName}`;
     let _errObj = `err${fieldName}`;
     let _errText = `* ${text} is required`;
@@ -137,36 +120,60 @@ class Home2 extends Component {
     }
   };
 
+  isDuplicateArray = (arr, value) => {
+    let isDuplicate = false;
+    arr.forEach(arrItem => {
+      if (arrItem.name === value) {
+        isDuplicate = true;
+      }
+    })
+    return isDuplicate;
+  };
+
   checkName = async () => {
     let _object = 'inputName';
     let _errObj = 'errName';
     let _value = this.state[_object].text;
     let _isValid = this.state[_object].valid;
     let prevData = [...this.state.DATA];
+    let setObject = {
+      text: '',
+      valid: false,
+    };
+    // this.setState({inputName: setObject})
+    console.log(this.state.inputName)
 
-    if (_isValid) {
-      console.log('checkname', prevData, this)
-      prevData.every(arrItem => {
-        if (arrItem.name === _value) {
-          this.setState({
-            [_errObj]: `* ${_value} is already logged`,
-            [_object]: {text: _value, valid: false},
-          });
-          console.log('is already logged',this.state.inputName)
-          return false;
-        } else {
-          this.setState({
-            [_errObj]: null,
-            [_object]: {text: _value, valid: true},
-          });
-          console.log('not logged', this.state.inputName)
-        }
-      });
+    if (!this.isDuplicateArray(prevData, _value)) {
+      console.log(_isValid)
+      if (_isValid) {
+        setObject = {
+          text: _value,
+          valid: true,
+        };
+        this.setState({
+          [_errObj]: null,
+          [_object]: setObject
+        });
+        console.log('isValid',setObject,this.state.inputName)
+      } else {
+        this.setState({
+          [_errObj]: `* Full Name is required`,
+          [_object]: setObject,
+        });
+        console.log('inValid',this.state.inputName)
+      }
     } else {
-      this.setState({[_errObj]: `* Full Name is required`});
-      console.log('fullname is required',this.state.inputName)
+      setObject = {
+        text: _value,
+        valid: false,
+      }
+      this.setState({
+        [_errObj]: `* ${_value} is already logged`,
+        [_object]: setObject,
+      });
+      console.log('duplicate',setObject,this.state.inputName)
     }
-  }
+  };
 
   isValidateAll = () => {
     if (
@@ -199,7 +206,7 @@ class Home2 extends Component {
       updateData(setObject).then((DATA) => {
         this.setState({DATA});
         Alert.alert('Welcome', 'Successful');
-        this.props.navigator.navigate('Visitor');
+        this.props.navigation.navigate('Visitor');
         Keyboard.dismiss();
       });
     } else {
@@ -227,6 +234,7 @@ class Home2 extends Component {
             validateInput={this.validateInput}
             checkValidation={this.checkValidation}
             checkName={this.checkName}
+            logData={this.logData}
             errName={this.state.errName}
             errID={this.state.errID}
             errPerson={this.state.errPerson}

@@ -1,18 +1,9 @@
-import React, { Component } from 'react';
-import { 
-  Image, 
-  View,
-  Text,
-} from 'react-native';
+import React, {Component} from 'react';
+import {Image, View, Text} from 'react-native';
 import styles from '.././styles/styles';
 
-export default class Logo extends Component{
-
-  componentDidmount(){
-    styles = new styles();
-  }
-
-  render(){
+export default class Logo extends Component {
+  render() {
     let uri = '.././images/sprobe_logo.png';
     return (
       <View style={styles.logoContainer}>

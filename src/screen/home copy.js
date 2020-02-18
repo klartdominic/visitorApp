@@ -24,7 +24,7 @@ class Home2 extends Component {
     this.validateInput = this.validateInput.bind(this);
     this.checkValidation = this.checkValidation.bind(this);
     this.logData = this.logData.bind(this);
-    this.navigationEvent = this.navigationEvent.bind(this);
+    // this.navigationEvent = this.navigationEvent.bind(this);
 
     this.state = {
       inputName: {
@@ -85,13 +85,13 @@ class Home2 extends Component {
     this.getData();
   }
 
-  componentWillUnmount() {
-    this.navigationEvent.remove();
-  }
+  // componentWillUnmount() {
+  //   this.navigationEvent.remove();
+  // }
 
-  navigationEvent = this.props.navigation.addListener('willFocus', () => {
-    this.getData();
-  });
+  // navigationEvent = this.props.navigation.addListener('willFocus', () => {
+  //   this.getData();
+  // });
 
   _scrollToInput(reactNode: any) {
     // Add a 'scroll' ref to your ScrollView
@@ -206,7 +206,11 @@ class Home2 extends Component {
       updateData(setObject).then((DATA) => {
         this.setState({DATA});
         Alert.alert('Welcome', 'Successful');
-        this.props.navigation.navigate('Visitor');
+        try {
+          this.props.navigation.navigate('Visitor');
+        } catch (error) {
+          console.log('logData ', error)
+        }
         Keyboard.dismiss();
       });
     } else {

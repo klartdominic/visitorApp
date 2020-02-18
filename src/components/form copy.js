@@ -17,7 +17,8 @@ const FormCopy = (props) => {
     <View style={styles.formContainer}>
       <TextInput 
         style={styles.textInput}
-        placeholder="Name" 
+        placeholder="Name"
+        autoCapitalize="characters"
         onSubmitEditing={() => this.inputID.focus()}
         onChangeText={(Name) => props.validateInput(Name, 'Name')}
         onBlur={() => props.checkName()}

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: variable.BGColorGrey,
   },
   logoContainer: {
-    padding: 30,
+    paddingTop: 20,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center'
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     textAlignVertical: variable.textAlignVertical,
     width: variable.width,
     // marginBottom: 20,
-    marginVertical: 5,
+    marginVertical: 10,
     backgroundColor: variable.backgroundColor,
     borderRadius: variable.textInputBorderRadius,
     fontSize: variable.fontSize,
@@ -100,13 +100,13 @@ const styles = StyleSheet.create({
     width: variable.width,
     fontSize: variable.fontSize,
     borderRadius: variable.touchableBorderRadius,
-    marginVertical: 5,
+    marginVertical: 10,
     alignItems: 'center',
     paddingHorizontal: 30,
     paddingVertical: 10,
   },
   clock:{
-    padding: 10,
+    padding: 5,
   },
   errText:{
     color: 'red',

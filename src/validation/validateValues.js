@@ -1,5 +1,4 @@
 const validateFields = (values, arr) => {
-  console.log(arr);
   let errors = [];
 
   if (!values.inputName) {

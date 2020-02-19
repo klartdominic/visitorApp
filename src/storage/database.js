@@ -46,9 +46,9 @@ export const saveData = (data) => {
 export const updateData = async(data) => {
   try {
     let DATA = await fetchData();
-    // if (isDuplicateData(data, DATA)) {
-    //   return '';
-    // }
+    if (isDuplicateData(data, DATA)) {
+      return err;
+    }
     DATA = mergeData(DATA, data);
     saveData(DATA);
 

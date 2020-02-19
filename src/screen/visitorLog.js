@@ -58,7 +58,6 @@ class VisitorLog extends Component {
 
   removeItem = item => {
     let prevData = [...this.state.DATA];
-    console.log(prevData)
     let filteredItems = prevData.filter(e => {
       return e.inputName !== item.inputName;
     });

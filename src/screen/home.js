@@ -61,41 +61,6 @@ class Home extends Component {
     this.scroll.props.scrollToFocusedInput(reactNode);
   }
 
-  
-  logData = () => {
-    let states = this.state;
-    let setObject = {
-      date: states.fullDate,
-      name: states.inputName.text,
-      id: states.inputID.text,
-      person: states.inputPerson.text,
-      purpose: states.inputPurpose.text,
-      idNo: states.inputIDNo.text,
-      host: states.inputHost.text,
-      createdAt: states.curDate,
-    };
-    // AsyncStorage.clear();
-
-    if (this.isValidateAll()) {
-      updateData(setObject).then(DATA => {
-        this.setState({DATA});
-        Alert.alert('Welcome', 'Successful');
-        try {
-          this.props.navigation.navigate('Visitor');
-        } catch (error) {
-          console.log('logData ', error)
-        }
-        Keyboard.dismiss();
-      });
-    } else {
-      this.checkValidation('Name', 'Full Name') ;
-      this.checkValidation('Person', 'Person to Visit');
-      this.checkValidation('Purpose', 'Purpose');
-      this.checkValidation('IDNo', 'ID No.');
-      Alert.alert('Invalid', 'Please check highlighted fields');
-    }
-  };
-
   render() {
     return (
       <KeyboardAwareScrollView
@@ -108,21 +73,7 @@ class Home extends Component {
         <View style={styles.homeContainer}>
           <LogoScreen />
           <ClockScreen />
-          <FormScreen 
-            state={this.state}
-            data={[...this.state.DATA]}
-            validateInput={this.validateInput}
-            checkValidation={this.checkValidation}
-            checkName={this.checkName}
-            logData={this.logData}
-            errName={this.state.errName}
-            errID={this.state.errID}
-            errPerson={this.state.errPerson}
-            errPurpose={this.state.errPurpose}
-            errIDNo={this.state.errIDNo}
-            errHost={this.state.errHost}
-            inputID={this.inputID}
-          />
+          <FormScreen state={this.state} data={[...this.state.DATA]} />
           <CopyrightScreen />
         </View>
       </KeyboardAwareScrollView>

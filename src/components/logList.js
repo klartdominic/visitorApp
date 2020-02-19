@@ -15,8 +15,8 @@ const LogList = props => {
             <ListItem
               roundAvatar
               style
-              title={`${item.name}`}
-              subtitle={`${item.person}: ${item.purpose}`}
+              title={`${item.inputName}`}
+              subtitle={`${item.inputPerson}: ${item.inputPurpose}`}
               leftAvatar={{
                 source: require('.././images/sprobe_logo.png'),
               }}

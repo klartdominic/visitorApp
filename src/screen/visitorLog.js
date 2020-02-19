@@ -1,33 +1,28 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   ActivityIndicator,
   View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  AppState,
   Alert,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from '.././styles/styles';
 import LogoScreen from '.././components/logo';
 import ClockScreen from '.././components/clock';
 import CopyrightScreen from '.././components/copyright';
 import LogListScreen from '.././components/logList';
-import { fetchData, saveData } from '../storage/database';
+import {fetchData, saveData} from '../storage/database';
 
-class VistorLog extends Component {
-  constructor(props){
-    super(props)
-    this.state=({
+class VisitorLog extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       DATA: [],
       isLoading: true,
       externalData: null,
-    })
+    };
   }
 
-  getData = async() => {
+  getData = async () => {
     await fetchData().then(DATA => this.setState({DATA}));
     this.setPause();
   };
@@ -41,7 +36,7 @@ class VistorLog extends Component {
     this.setState({isLoading: false});
   };
 
-  validateRemoveItem = (item) => {
+  validateRemoveItem = item => {
     Alert.alert(
       'Logout',
       `Confirm to Logout ${item.name}?`,
@@ -58,14 +53,15 @@ class VistorLog extends Component {
         },
       ],
       {cancelable: true},
-    )
+    );
   };
 
-  removeItem = (item) => {
+  removeItem = item => {
     let prevData = [...this.state.DATA];
-    let filteredItems = prevData.filter((e) => {
-      return e.name !== item.name;
-    })
+    console.log(prevData)
+    let filteredItems = prevData.filter(e => {
+      return e.inputName !== item.inputName;
+    });
     saveData(filteredItems);
     this.setPause();
     this.getData();
@@ -102,5 +98,4 @@ class VistorLog extends Component {
   }
 }
 
-
-export default VistorLog;
+export default VisitorLog;

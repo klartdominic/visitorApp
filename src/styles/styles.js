@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     textAlignVertical: variable.textAlignVertical,
     width: variable.width,
     // marginBottom: 20,
+    marginVertical: 5,
     backgroundColor: variable.backgroundColor,
     borderRadius: variable.textInputBorderRadius,
     fontSize: variable.fontSize,

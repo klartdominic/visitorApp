@@ -46,12 +46,26 @@ export const saveData = (data) => {
 export const updateData = async(data) => {
   try {
     let DATA = await fetchData();
+    // if (isDuplicateData(data, DATA)) {
+    //   return '';
+    // }
     DATA = mergeData(DATA, data);
     saveData(DATA);
 
-    // this.setState({DATA});
     return DATA;
   } catch (err) {
     console.log('Error fetching Data updateData', err);
   }
+}
+
+const isDuplicateData = (addData, existingData) => {
+  let isDuplicate = false;
+  let arr = [...existingData];
+  arr.forEach(arrItem => {
+    if (arrItem.inputName === addData.inputName) {
+      isDuplicate = true;
+    }
+  });
+  return isDuplicate;
+
 }

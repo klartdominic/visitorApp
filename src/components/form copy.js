@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import {
   View,
@@ -10,18 +10,30 @@ import {
 } from 'react-native';
 
 import styles from '.././styles/styles';
+import formValidation from '.././validation/formValidation';
+import validateValues from '.././validation/validateValues';
 
-const FormCopy = (props) => {
-  // console.log('FormCopy', this)
+const Form = props => {
+  const {
+    checkName,
+    handleChange,
+    values,
+    logData,
+    errors,
+    handleBlur,
+  } = formValidation(props.data, validateValues);
+  // console.log(values);
   return (
     <View style={styles.formContainer}>
-      <TextInput 
+      <TextInput
         style={styles.textInput}
         placeholder="Name"
         autoCapitalize="characters"
         onSubmitEditing={() => this.inputID.focus()}
-        onChangeText={(Name) => props.validateInput(Name, 'Name')}
-        onBlur={() => props.checkName()}
+        // onChangeText={Name => props.validateInput(Name, 'Name')}
+        onChange={handleChange}
+        // onBlur={() => props.checkName()}
+        onBlur={checkName}
       />
       <Text style={styles.errText}>{props.errName}</Text>
       <TextInput 
@@ -77,7 +89,6 @@ const FormCopy = (props) => {
       </TouchableOpacity>
     </View>
   );
-}
+};
 
-
-export default FormCopy;
+export default Form;

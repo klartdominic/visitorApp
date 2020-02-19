@@ -50,23 +50,15 @@ const formValidation = (data, validate, updateData) => {
     setErrors(validationErrors);
 
     setSubmitting(true);
-    // const noErrors = Object.keys(errors).length === 0;
-    // if (noErrors){
-    //   updateData(values).then(data => {
-    //     navigate('Visitor');
-    //     setSubmitting(true);
-    //   }).catch(err => {console.log(err)})
-        
-    // }
   };
 
   const createRef = (input) => {
     console.log('createRef', input);
-  }
+  };
 
   const nextFocus = () => {
     console.log('nextFocus');
-  }
+  };
 
   return {
     handleChange,

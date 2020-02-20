@@ -3,14 +3,16 @@ import {createAppContainer} from 'react-navigation';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import HomeScreen from '../screen/home';
 import VisitorLogScreen from '../screen/visitorLog';
+import SendingEmailScreen from '../screen/sendingemail';
 
 const NavigationTabs = createMaterialTopTabNavigator(
   {
     Home: HomeScreen,
     Visitor: VisitorLogScreen,
+    SendEmail: SendingEmailScreen,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Visitor',
     animationEnabled: true,
     swipeEnabled: true,
     tabBarOptions: {

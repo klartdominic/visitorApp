@@ -176,9 +176,14 @@ android {
 
         }
     }
+    packagingOptions {
+		exclude 'META-INF/mimetypes.default'
+		exclude 'META-INF/mailcap.default'
+	}
 }
 
 dependencies {
+    implementation project(':react-native-smtp-mailer')
     implementation project(':react-native-vector-icons')
     implementation project(':@react-native-community_async-storage')
     implementation fileTree(dir: "libs", include: ["*.jar"])

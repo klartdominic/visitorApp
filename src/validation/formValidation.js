@@ -11,10 +11,12 @@ const INITIAL_DATAFIELDS = {
   inputIDNo: '',
   inputHost: '',
   date: '',
+  timeIn: '',
+  timeOut: '',
 };
 
 const formValidation = (curDate, data, validate, updateData) => {
-  const [values, setValues] = React.useState(INITIAL_DATAFIELDS);
+  const [values, setValues] = useState(INITIAL_DATAFIELDS);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setSubmitting] = useState(false);
   const {navigate} = useNavigation();
@@ -28,6 +30,7 @@ const formValidation = (curDate, data, validate, updateData) => {
 
   useEffect(() => {
     if (isSubmitting) {
+      console.log('Submitting', values);
       const noErrors = Object.keys(errors).length === 0;
       if (noErrors) {
         updateData(values).then(data => {
@@ -59,7 +62,6 @@ const formValidation = (curDate, data, validate, updateData) => {
   const handleChange = (value, field) => {
     setValues({
       ...values,
-      id: `${curDate}-${data.length}`,
       [field]: value,
     });
   };
@@ -70,8 +72,17 @@ const formValidation = (curDate, data, validate, updateData) => {
   };
 
   const handleSubmit = () => {
+    let today = new Date();
+
     const validationErrors = validate(values, data);
     setErrors(validationErrors);
+
+    setValues({
+      ...values,
+      id: `${today.toLocaleDateString()}-${data.length}`,
+      date: today.toLocaleDateString(),
+      timeIn: today.toLocaleTimeString(),
+    });
 
     setSubmitting(true);
   };

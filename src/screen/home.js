@@ -6,7 +6,6 @@ import LogoScreen from '.././components/logo';
 import FormScreen from '.././components/form';
 import ClockScreen from '.././components/clock';
 import CopyrightScreen from '.././components/copyright';
-
 import {fetchData} from '../storage/database';
 
 class Home extends Component {
@@ -16,8 +15,6 @@ class Home extends Component {
     // navigationEvent = navigationEvent.bind(this);
 
     this.state = {
-      curDate: '',
-      fullDate: '',
       DATA: [],
     };
     this._isMounted = false;
@@ -38,9 +35,6 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    let today = new Date();
-    this.state.fullDate = today.toLocaleString();
-    this.state.curDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
 
     this._isMounted = true;
     this._isMounted && this.getData();

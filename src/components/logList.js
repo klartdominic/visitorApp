@@ -11,7 +11,7 @@ const LogList = props => {
       <FlatList
         data={props.data}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => props.validateRemoveItem(item)}>
+          <TouchableOpacity onPress={() => props.validateLogOut(item)}>
             <ListItem
               roundAvatar
               style
@@ -33,6 +33,12 @@ const LogList = props => {
       />
     </View>
   );
+};
+
+const renderItem = ({item}) => {
+  if (item.timeOut === null) {
+    console.log(item);
+  }
 };
 
 export default LogList;

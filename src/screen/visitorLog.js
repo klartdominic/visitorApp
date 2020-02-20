@@ -21,6 +21,7 @@ class VisitorLog extends Component {
   getData = async () => {
     await fetchData().then(DATA => this.setState({DATA}));
     this.setPause();
+    console.log(this.state.DATA);
   };
 
   setPause = () => {
@@ -32,10 +33,10 @@ class VisitorLog extends Component {
     this.setState({isLoading: false});
   };
 
-  validateRemoveItem = item => {
+  validateLogOut = item => {
     Alert.alert(
       'Logout',
-      `Confirm to Logout ${item.name}?`,
+      `Confirm to Logout ${item.inputName}?`,
       [
         {
           text: 'Cancel',
@@ -44,7 +45,7 @@ class VisitorLog extends Component {
         {
           text: 'OK',
           onPress: () => {
-            this.removeItem(item);
+            this.logoutVisitor(item);
           },
         },
       ],
@@ -52,12 +53,16 @@ class VisitorLog extends Component {
     );
   };
 
-  removeItem = item => {
+  logoutVisitor = item => {
+    let time = new Date().toLocaleTimeString();
     let prevData = [...this.state.DATA];
-    let filteredItems = prevData.filter(e => {
-      return e.inputName !== item.inputName;
+    prevData.forEach(prevItem => {
+      if (prevItem.inputName === item.inputName) {
+        prevItem.timeOut = time;
+      }
     });
-    saveData(filteredItems);
+    console.log('filteredItems', prevData);
+    saveData(prevData);
     this.setPause();
     this.getData();
     this.setPause();
@@ -85,7 +90,7 @@ class VisitorLog extends Component {
         {this.state.isLoading ? (
           <LogListScreen
             data={this.state.DATA}
-            validateRemoveItem={this.validateRemoveItem}
+            validateLogOut={this.validateLogOut}
           />
         ) : (
           <ActivityIndicator />

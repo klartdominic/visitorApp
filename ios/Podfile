@@ -38,6 +38,9 @@ target 'visitorApp' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+
+  pod 'RNSmtpMailer', :path => '../node_modules/react-native-smtp-mailer'
+
   target 'visitorAppTests' do
     inherit! :search_paths
     # Pods for testing

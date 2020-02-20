@@ -26,7 +26,7 @@ const LogList = props => {
             />
           </TouchableOpacity>
         )}
-        keyExtractor={item => item.name}
+        keyExtractor={item => item.id}
         refreshing={true}
         // onRefresh={true}
         ListEmptyComponent={() => <Text>There are no Visitor yet.</Text>}

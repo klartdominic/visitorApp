@@ -1,41 +1,65 @@
-import React, {useState, useEffect} from 'react';
-import { useNavigation } from 'react-navigation-hooks'
-
-
+import React, {useState, useEffect, useRef} from 'react';
+import {useNavigation} from 'react-navigation-hooks';
+import {Alert} from 'react-native';
 
 const INITIAL_DATAFIELDS = {
-  // inputName: '',
+  id: '',
   inputName: '',
   inputID: '',
   inputPerson: '',
   inputPurpose: '',
   inputIDNo: '',
   inputHost: '',
-}
+  date: '',
+};
 
-const formValidation = (data, validate, updateData) => {
+const formValidation = (curDate, data, validate, updateData) => {
   const [values, setValues] = React.useState(INITIAL_DATAFIELDS);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setSubmitting] = useState(false);
-  const { navigate } = useNavigation();
+  const {navigate} = useNavigation();
+
+  const inputRefName = useRef();
+  const inputRefID = useRef();
+  const inputRefPerson = useRef();
+  const inputRefPurpose = useRef();
+  const inputRefIDNo = useRef();
+  const inputRefHost = useRef();
 
   useEffect(() => {
     if (isSubmitting) {
       const noErrors = Object.keys(errors).length === 0;
-      console.log('count array', data.length)
       if (noErrors) {
-        console.log(isSubmitting);
         updateData(values).then(data => {
+          inputRefName.current.clear();
+          inputRefID.current.clear();
+          inputRefPerson.current.clear();
+          inputRefPurpose.current.clear();
+          inputRefIDNo.current.clear();
+          inputRefHost.current.clear();
+          Alert.alert(
+            'Yokosu Sprobe eh',
+            `Welcome to Sprobe ${values.inputName}`,
+          );
           navigate('Visitor');
         });
       }
       setSubmitting(false);
     }
-  }, [errors]);
+  }, [
+    data.length,
+    errors,
+    isSubmitting,
+    navigate,
+    curDate,
+    updateData,
+    values,
+  ]);
 
   const handleChange = (value, field) => {
     setValues({
       ...values,
+      id: `${curDate}-${data.length}`,
       [field]: value,
     });
   };
@@ -45,29 +69,25 @@ const formValidation = (data, validate, updateData) => {
     setErrors(validationErrors);
   };
 
-  const logData = () => {
+  const handleSubmit = () => {
     const validationErrors = validate(values, data);
     setErrors(validationErrors);
 
     setSubmitting(true);
   };
 
-  const createRef = (input) => {
-    console.log('createRef', input);
-  };
-
-  const nextFocus = () => {
-    console.log('nextFocus');
-  };
-
   return {
     handleChange,
     values,
-    logData,
+    handleSubmit,
     errors,
     handleBlur,
-    nextFocus,
-    createRef,
+    inputRefName,
+    inputRefID,
+    inputRefPerson,
+    inputRefPurpose,
+    inputRefIDNo,
+    inputRefHost,
   };
 };
 

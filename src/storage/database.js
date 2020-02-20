@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-community/async-storage';
 
 const STORAGE_KEY = 'visitor';
 
@@ -14,13 +14,13 @@ export const fetchData = async () => {
   }
 };
 
-const parseExistingData = (data) => {
+const parseExistingData = data => {
   // JSON.parse(data).map((item) => {
   //   item.createdAt = new Date(item.createdAt);
   //   return data;
   // });
   return JSON.parse(data);
-}
+};
 export const mergeData = (existingData, data) => {
   // existingData = parseExistingData(existingData);
 
@@ -39,11 +39,11 @@ export const mergeData = (existingData, data) => {
   return [...existingData, data];
 };
 
-export const saveData = (data) => {
+export const saveData = data => {
   AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 };
 
-export const updateData = async(data) => {
+export const updateData = async data => {
   try {
     let DATA = await fetchData();
     DATA = mergeData(DATA, data);
@@ -53,4 +53,4 @@ export const updateData = async(data) => {
   } catch (err) {
     console.log('Error fetching Data updateData', err);
   }
-}
+};

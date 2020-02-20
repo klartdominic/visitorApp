@@ -1,9 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Alert,
-  Keyboard,
-} from 'react-native';
+import {View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from '.././styles/styles';
 import LogoScreen from '.././components/logo';
@@ -11,7 +7,7 @@ import FormScreen from '.././components/form';
 import ClockScreen from '.././components/clock';
 import CopyrightScreen from '.././components/copyright';
 
-import {fetchData, updateData} from '../storage/database';
+import {fetchData} from '../storage/database';
 
 class Home extends Component {
   constructor(props) {
@@ -24,6 +20,7 @@ class Home extends Component {
       fullDate: '',
       DATA: [],
     };
+    this._isMounted = false;
   }
 
   getData = async () => {
@@ -45,11 +42,13 @@ class Home extends Component {
     this.state.fullDate = today.toLocaleString();
     this.state.curDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
 
-    this.getData();
+    this._isMounted = true;
+    this._isMounted && this.getData();
   }
 
   componentWillUnmount() {
     this.navigationEvent.remove();
+    this._isMounted = false;
   }
 
   navigationEvent = this.props.navigation.addListener('willFocus', () => {
@@ -65,9 +64,9 @@ class Home extends Component {
     return (
       <KeyboardAwareScrollView
         innerRef={ref => {
-          this.scroll = ref
+          this.scroll = ref;
         }}
-        extraHeight= {1}
+        extraHeight={1}
         extraScrollHeight={1}
         automaticallyAdjustContentInsets={false}>
         <View style={styles.homeContainer}>
@@ -82,4 +81,3 @@ class Home extends Component {
 }
 
 export default Home;
-

@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react';
+import React, {useRef} from 'react';
 
 import {
   View,
@@ -18,12 +18,22 @@ const Form = props => {
   const {
     handleChange,
     values,
-    logData,
+    handleSubmit,
     errors,
     handleBlur,
-    nextFocus,
-    createRef,
-  } = formValidation(props.data, validateFields, updateData);
+    inputRefName,
+    inputRefID,
+    inputRefPerson,
+    inputRefPurpose,
+    inputRefIDNo,
+    inputRefHost,
+  } = formValidation(
+    props.state.curDate,
+    props.data,
+    validateFields,
+    updateData,
+  );
+  
   return (
     <View>
       <TextInput
@@ -34,63 +44,77 @@ const Form = props => {
         onChangeText={Name => handleChange(Name, 'inputName')}
         onBlur={handleBlur}
         blurOnSubmit={false}
-        // onSubmitEditing={nextFocus}
-        // onSubmitEditing={() => this.inputID.focus()}
+        onSubmitEditing={() => inputRefID.current.focus()}
+        ref={inputRefName}
       />
-      {errors.inputName && <Text style={styles.errText}>{errors.inputName}</Text>}
+      {errors.inputName && (
+        <Text style={styles.errText}>{errors.inputName}</Text>
+      )}
       <TextInput
         style={styles.textInput}
         placeholder="Identification Presented"
+        name="inputID"
         blurOnSubmit={false}
         onChangeText={inputID => handleChange(inputID, 'inputID')}
-        // ref={input => createRef(input)}
-        // onSubmitEditing={() => this.inputPerson.focus()}
+        onSubmitEditing={() => inputRefPerson.current.focus()}
+        ref={inputRefID}
       />
       {/* {errors.inputID && <Text styele={styles.errText}>{errors.inputID}</Text>} */}
       <TextInput
         style={styles.textInput}
         placeholder="Person to Visit"
+        name="inputPerson"
         blurOnSubmit={false}
         onChangeText={person => handleChange(person, 'inputPerson')}
-        // ref={input => this.inputPerson = input}
-        // onSubmitEditing={() => this.inputPurpose.focus()}
         onBlur={handleBlur}
+        onSubmitEditing={() => inputRefPurpose.current.focus()}
+        ref={inputRefPerson}
       />
-      {errors.inputPerson && <Text style={styles.errText}>{errors.inputPerson}</Text>}
+      {errors.inputPerson && (
+        <Text style={styles.errText}>{errors.inputPerson}</Text>
+      )}
       <TextInput
         style={styles.detailInput}
         multiline={true}
         numberOfLines={5}
         maxLength={1000}
         placeholder="Purpose"
+        name="inputPurpose"
         blurOnSubmit={false}
         onChangeText={purpose => handleChange(purpose, 'inputPurpose')}
-        // ref={input => this.inputPurpose = input}
         onBlur={handleBlur}
+        onSubmitEditing={() => inputRefIDNo.current.focus()}
+        ref={inputRefPurpose}
       />
-      {errors.inputPurpose && <Text style={styles.errText}>{errors.inputPurpose}</Text>}
+      {errors.inputPurpose && (
+        <Text style={styles.errText}>{errors.inputPurpose}</Text>
+      )}
       <TextInput
         style={styles.textInput}
         placeholder="ID No."
+        name="inputIDNo"
         blurOnSubmit={false}
         onChangeText={IDNo => handleChange(IDNo, 'inputIDNo')}
-        // ref={input => this.inputIDNo = input}
-        // onSubmitEditing={() => this.inputHost.focus()}
         onBlur={handleBlur}
+        onSubmitEditing={() => inputRefHost.current.focus()}
+        ref={inputRefIDNo}
       />
-      {errors.inputIDNo && <Text style={styles.errText}>{errors.inputIDNo}</Text>}
+      {errors.inputIDNo && (
+        <Text style={styles.errText}>{errors.inputIDNo}</Text>
+      )}
       <TextInput
         style={styles.textInput}
         placeholder="Host Name"
+        name="inputHost"
         blurOnSubmit={false}
-        onChangeText={host => handleChange(host, 'inputHost Name')}
-        // ref={input => this.inputHost = input}
+        onChangeText={host => handleChange(host, 'inputHost')}
+        onSubmitEditing={() => Keyboard.dismiss()}
+        ref={inputRefHost}
       />
-      <TouchableOpacity style={styles.touchable} onPress={logData}>
+      <TouchableOpacity style={styles.touchable} onPress={handleSubmit}>
         <Text>Login</Text>
       </TouchableOpacity>
     </View>
-    
   );
 };
 

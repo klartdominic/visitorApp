@@ -1,10 +1,5 @@
 import React, {Component} from 'react';
-import {
-  ActivityIndicator,
-  View,
-  Alert,
-} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {ActivityIndicator, View, Alert, Keyboard} from 'react-native';
 import styles from '.././styles/styles';
 import LogoScreen from '.././components/logo';
 import ClockScreen from '.././components/clock';
@@ -20,6 +15,7 @@ class VisitorLog extends Component {
       isLoading: true,
       externalData: null,
     };
+    this._isMounted = false;
   }
 
   getData = async () => {
@@ -68,15 +64,18 @@ class VisitorLog extends Component {
   };
 
   componentDidMount() {
-    this.getData();
+    this._isMounted = true;
+    this._isMounted && this.getData();
   }
 
   componentWillUnmount() {
     this.navigationEvent.remove();
+    this._isMounted = false;
   }
 
   navigationEvent = this.props.navigation.addListener('willFocus', () => {
     this.getData();
+    Keyboard.dismiss();
   });
 
   render() {
